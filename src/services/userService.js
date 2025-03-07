@@ -25,4 +25,23 @@ userServer.login = async (data) => {
   }
 };
 
+userServer.getAll = async () => {
+  try {
+    const users = prisma.user.findMany({
+      where: { role: "user" },
+      select: {
+        company: true,
+        email: true,
+        id: true,
+        name: true,
+        permissions: true,
+        role: true,
+      },
+    });
+    return users;
+  } catch (err) {
+    throw err;
+  }
+};
+
 module.exports = userServer;

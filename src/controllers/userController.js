@@ -1,4 +1,4 @@
-const { updateUser } = require("../services/userService");
+const { updateUser, getAll } = require("../services/userService");
 const { errorResponse, successResponse } = require("../utils");
 
 const userController = {};
@@ -22,6 +22,14 @@ userController.update = async (req, res) => {
     delete data?.email;
     const user = await updateUser(parseInt(id), data);
     return successResponse(res, 200, "Update user success.", user);
+  } catch (err) {
+    return errorResponse(res, 500, err?.message, err);
+  }
+};
+userController.get = async (req, res) => {
+  try {
+    const users = await getAll();
+    return successResponse(res, 200, "fetch success.", users);
   } catch (err) {
     return errorResponse(res, 500, err?.message, err);
   }
